@@ -148,12 +148,12 @@
      liElem.addEventListener('click', function()
      {
        // open card
-       addCardToOpen(liElem, card.name);
+       addCardToOpenList(liElem, card.name);
      });
    }
  }
 
- function addCardToOpen(li, cardName)
+ function addCardToOpenList(li, cardName)
  {
    // card is open
    li.classList.add(openCard());
@@ -161,6 +161,12 @@
    // put card in the open list array
    openCardsList.push(li);
 
+   // check cards
+   checkCards(cardName);
+ }
+
+ function checkCards(cardName)
+ {
    // if the list already has another card, check to see if the two cards match
    if (openCardsList.length === 2)
    {
@@ -194,6 +200,7 @@
      resetList(openCardsList);
      incrementMoves();
 
+     // check if game is finished
      if(matchCounter === 8)
      {
        // game over, show Modal box
@@ -290,12 +297,16 @@ function resetList(list)
 
 function initGame()
 {
+  // add a listener to the restart button
   const restartButton = document.querySelector('.restart');
   restartButton.addEventListener('click', function()
   {
     location.reload();
   });
+
+  // display all the cards and start
   displayCards();
 }
 
+// GAME point of entry
 initGame();
