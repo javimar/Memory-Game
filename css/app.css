@@ -79,6 +79,13 @@ h1 {
     cursor: default;
     background: #02ccba;
     font-size: 33px;
+    animation: match .3s;
+}
+
+.deck .card.nomatch {
+    cursor: default;
+    background: #f05959;;
+    font-size: 33px;
 }
 
 /*

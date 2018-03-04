@@ -1,6 +1,95 @@
 /*
  * Create a list that holds all of your cards
  */
+ const masterCard =
+ {
+   allCardsList:
+   [ // All 16 cards are here, 8 types x 2
+     {
+       name: 'diamond',
+       icon: 'fa fa-diamond',
+       class: 'card'
+     },
+     {
+       name: 'diamond',
+       icon: 'fa fa-diamond',
+       class: 'card'
+     },
+     {
+       name: 'plane',
+       icon: 'fa fa-paper-plane-o',
+       class: 'card'
+     },
+     {
+       name: 'plane',
+       icon: 'fa fa-paper-plane-o',
+       class: 'card'
+     },
+     {
+       name: 'anchor',
+       icon: 'fa fa-anchor',
+       class: 'card'
+     },
+     {
+       name: 'anchor',
+       icon: 'fa fa-anchor',
+       class: 'card'
+     },
+     {
+       name: 'bolt',
+       icon: 'fa fa-bolt',
+       class: 'card'
+     },
+     {
+       name: 'bolt',
+       icon: 'fa fa-bolt',
+       class: 'card'
+     },
+     {
+       name: 'cube',
+       icon: 'fa fa-cube',
+       class: 'card'
+     },
+     {
+       name: 'cube',
+       icon: 'fa fa-cube',
+       class: 'card'
+     },
+     {
+       name: 'leaf',
+       icon: 'fa fa-leaf',
+       class: 'card'
+     },
+     {
+       name: 'leaf',
+       icon: 'fa fa-leaf',
+       class: 'card'
+     },
+     {
+       name: 'bicycle',
+       icon: 'fa fa-bicycle',
+       class: 'card'
+     },
+     {
+       name: 'bicycle',
+       icon: 'fa fa-bicycle',
+       class: 'card'
+     },
+     {
+       name: 'bomb',
+       icon: 'fa fa-bomb',
+       class: 'card'
+     },
+     {
+       name: 'bomb',
+       icon: 'fa fa-bomb',
+       class: 'card'
+     }
+   ],
+
+   openCardsList: [], // we put the cards that are faced up
+   cardState: ['open', 'match', 'nomatch']
+ };
 
 
 /*
@@ -9,6 +98,35 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ function displayCards()
+ {
+   const cards = masterCard.allCardsList;
+   const openCards = masterCard.openCardsList;
+   shuffle(cards);
+
+   // get a reference to the deck
+   const deck = document.querySelector('.deck');
+
+   // loop through the array of cards
+   for (let card of cards)
+   {
+     // create li and i elements as per deck HTML layout
+     let liElem = document.createElement('li');
+     let iElem = document.createElement('i');
+     // assign classes
+     liElem.classList.add(card.class);
+     iElem.className = card.icon;
+     // append to ul deck list
+     liElem.appendChild(iElem);
+     deck.appendChild(liElem);
+     // assign a click event listener for each card
+     liElem.addEventListener('click', function()
+     {
+       // add class open and show
+       liElem.classList.add(masterCard.cardState[0]);
+     });
+   }
+ }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -26,13 +144,4 @@ function shuffle(array) {
 }
 
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+displayCards();
