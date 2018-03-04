@@ -97,6 +97,9 @@
  const cardState = ['open', 'match', 'nomatch'];
  let openCardsList = []; // we put the cards that are faced up (open card)
 
+ // global time
+ let timeEllapsed;
+
 /**
 * Functions to return the state of a card
 */
@@ -212,6 +215,9 @@
        // game over, show Modal box
        showModal();
        matchCounter, moveCounter = 0;
+
+       // stop timer
+       clearInterval(timeEllapsed);
      }
    }
  }
@@ -248,10 +254,15 @@
    let para1 = document.createElement('p');
    let para2 = document.createElement('p');
    let para3 = document.createElement('p');
+
    para1.textContent = "Moves = " + moveCounter;
    modalBody.appendChild(para1);
-   para2.textContent = "Time used = ";
+
+   para2.textContent = "Time used = " +
+     document.querySelector('#minutes').textContent + ":" +
+     document.querySelector('#seconds').textContent;
    modalBody.appendChild(para2);
+
    para3.textContent = "Your star rating = ";
    modalBody.appendChild(para3);
 
@@ -295,6 +306,22 @@ function shuffle(array) {
     return array;
 }
 
+// Timer function
+function startTimer()
+{
+  let sec = 0;
+  function pad(val)
+  {
+    return val > 9 ? val : "0" + val;
+  }
+  timeEllapsed = setInterval(function()
+  {
+    document.getElementById("seconds").innerHTML = pad(++sec % 60);
+    document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
+   }, 1000);
+}
+
+
 function resetList(list)
 {
   list.length = 0;
@@ -312,6 +339,7 @@ function initGame()
 
   // display all the cards and start
   displayCards();
+  startTimer();
 }
 
 // GAME point of entry
