@@ -88,7 +88,7 @@
    ]
  };
 
- const cardState = ['open', 'match', 'nomatch', 'show'];
+ const cardState = ['open', 'match', 'nomatch'];
  let openCardsList = []; // we put the cards that are faced up (open card)
 
 /**
@@ -107,11 +107,6 @@
  function nomatchCard()
  {
    return cardState[2];
- }
-
- function showCard()
- {
-   return cardState[3];
  }
 
 /*
@@ -146,8 +141,7 @@
      // assign a click event listener for each card
      liElem.addEventListener('click', function()
      {
-       // show card
-       liElem.classList.add(showCard());
+       // open card
        addCardToOpen(liElem, card.name);
      });
    }
@@ -182,8 +176,8 @@
        // set timeout to hide the card
        setTimeout(function()
        {
-           card1.classList.remove(openCard(), nomatchCard(), showCard());
-           card2.classList.remove(openCard(), nomatchCard(), showCard());
+           card1.classList.remove(openCard(), nomatchCard());
+           card2.classList.remove(openCard(), nomatchCard());
        }, 900);
      }
      // clean and reset openCardsList array
