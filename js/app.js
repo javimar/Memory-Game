@@ -88,6 +88,9 @@
    ]
  };
 
+ // control the moves (clicks)
+ let moveCounter = 0;
+
  const cardState = ['open', 'match', 'nomatch'];
  let openCardsList = []; // we put the cards that are faced up (open card)
 
@@ -180,10 +183,30 @@
            card2.classList.remove(openCard(), nomatchCard());
        }, 900);
      }
+
      // clean and reset openCardsList array
      resetList(openCardsList);
+     incrementMoves();
    }
  }
+
+// Increment moves counter
+function incrementMoves()
+{
+  // increment moves counter
+  const movesElement = document.querySelector('.moves');
+  const movesWord = document.querySelector('.moves-literal');
+  moveCounter++;
+  if(moveCounter === 1)
+  {
+    movesWord.textContent = "Move";
+  }
+  else
+  {
+    movesWord.textContent = "Moves";
+  }
+  movesElement.textContent = moveCounter;
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
