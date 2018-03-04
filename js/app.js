@@ -212,4 +212,14 @@ function resetList(list)
   return list;
 }
 
-displayCards();
+function initGame()
+{
+  const restartButton = document.querySelector('.restart');
+  restartButton.addEventListener('click', function()
+  {
+    location.reload();
+  });
+  displayCards();
+}
+
+initGame();
