@@ -85,12 +85,34 @@
        icon: 'fa fa-bomb',
        class: 'card'
      }
-   ],
-
-   openCardsList: [], // we put the cards that are faced up
-   cardState: ['open', 'match', 'nomatch']
+   ]
  };
 
+ const cardState = ['open', 'match', 'nomatch', 'show'];
+ let openCardsList = []; // we put the cards that are faced up (open card)
+
+/**
+* Functions to return the state of a card
+*/
+ function openCard()
+ {
+   return cardState[0];
+ }
+
+ function matchCard()
+ {
+   return cardState[1];
+ }
+
+ function nomatchCard()
+ {
+   return cardState[2];
+ }
+
+ function showCard()
+ {
+   return cardState[3];
+ }
 
 /*
  * Display the cards on the page
@@ -101,7 +123,6 @@
  function displayCards()
  {
    const cards = masterCard.allCardsList;
-   const openCards = masterCard.openCardsList;
    shuffle(cards);
 
    // get a reference to the deck
@@ -113,18 +134,60 @@
      // create li and i elements as per deck HTML layout
      let liElem = document.createElement('li');
      let iElem = document.createElement('i');
+
      // assign classes
-     liElem.classList.add(card.class);
+     liElem.classList.add(card.class, card.name); // assign "name" to identify card not to style it
      iElem.className = card.icon;
+
      // append to ul deck list
      liElem.appendChild(iElem);
      deck.appendChild(liElem);
+
      // assign a click event listener for each card
      liElem.addEventListener('click', function()
      {
-       // add class open and show
-       liElem.classList.add(masterCard.cardState[0]);
+       // show card
+       liElem.classList.add(showCard());
+       addCardToOpen(liElem, card.name);
      });
+   }
+ }
+
+ function addCardToOpen(li, cardName)
+ {
+   // card is open
+   li.classList.add(openCard());
+
+   // put card in the open list array
+   openCardsList.push(li);
+
+   // if the list already has another card, check to see if the two cards match
+   if (openCardsList.length === 2)
+   {
+     // place individual cards in 2 variables so we can compare them
+     let card1 = openCardsList[0];
+     let card2 = openCardsList[1];
+     if(card1.classList.contains(cardName) && card2.classList.contains(cardName))
+     {
+       // cards match, set state to "match"
+       card1.classList.add(matchCard());
+       card2.classList.add(matchCard());
+     }
+     else
+     {
+       // cards not match, set state to "nomatch"
+       card1.classList.add(nomatchCard());
+       card2.classList.add(nomatchCard());
+
+       // set timeout to hide the card
+       setTimeout(function()
+       {
+           card1.classList.remove(openCard(), nomatchCard(), showCard());
+           card2.classList.remove(openCard(), nomatchCard(), showCard());
+       }, 900);
+     }
+     // clean and reset openCardsList array
+     resetList(openCardsList);
    }
  }
 
@@ -143,5 +206,10 @@ function shuffle(array) {
     return array;
 }
 
+function resetList(list)
+{
+  list.length = 0;
+  return list;
+}
 
 displayCards();
