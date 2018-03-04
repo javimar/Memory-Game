@@ -155,6 +155,12 @@
 
  function addCardToOpenList(li, cardName)
  {
+   // if card is already open, we cannot push it again into the list
+   if(li.classList.contains(openCard()))
+   {
+     return;
+   }
+
    // card is open
    li.classList.add(openCard());
 
