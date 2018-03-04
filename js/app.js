@@ -91,6 +91,9 @@
  // control the moves (clicks)
  let moveCounter = 0;
 
+ // control the matched cards
+ let matchCounter = 0;
+
  const cardState = ['open', 'match', 'nomatch'];
  let openCardsList = []; // we put the cards that are faced up (open card)
 
@@ -169,6 +172,9 @@
        // cards match, set state to "match"
        card1.classList.add(matchCard());
        card2.classList.add(matchCard());
+
+       // increment the match counter
+       matchCounter++;
      }
      else
      {
@@ -187,7 +193,60 @@
      // clean and reset openCardsList array
      resetList(openCardsList);
      incrementMoves();
+
+     if(matchCounter === 8)
+     {
+       // game over, show Modal box
+       showModal();
+       matchCounter, moveCounter = 0;
+     }
    }
+ }
+
+ // Displays the modal with the game statistics
+ function showModal()
+ {
+   // Get the modal
+   const modal = document.getElementById('myModal');
+
+   // Get the <span> element that closes the modal
+   const spanClose = document.getElementsByClassName("close")[0];
+
+   // open the modal
+   modal.style.display = "block";
+
+   // When the user clicks on <span> (x), close the modal
+   spanClose.onclick = function()
+   {
+     modal.style.display = "none";
+   }
+
+   // When the user clicks anywhere outside of the modal, close it
+   window.onclick = function(event)
+   {
+     if (event.target == modal)
+     {
+       modal.style.display = "none";
+     }
+   }
+
+   // feed stats to the body of the modal
+   const modalBody = document.querySelector('.modal-body');
+   let para1 = document.createElement('p');
+   let para2 = document.createElement('p');
+   let para3 = document.createElement('p');
+   para1.textContent = "Moves = " + moveCounter;
+   modalBody.appendChild(para1);
+   para2.textContent = "Time used = ";
+   modalBody.appendChild(para2);
+   para3.textContent = "Your star rating = ";
+   modalBody.appendChild(para3);
+
+   // add an event listener to the button
+   document.querySelector(".modal-button").addEventListener("click", function()
+   {
+     location.reload();
+   });
  }
 
 // Increment moves counter
