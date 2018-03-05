@@ -94,6 +94,9 @@
  // control the matched cards
  let matchCounter = 0;
 
+ // control the stars (performance)
+ let starCounter = 3;
+
  const cardState = ['open', 'match', 'nomatch'];
  let openCardsList = []; // we put the cards that are faced up (open card)
 
@@ -212,12 +215,12 @@
      // check if game is finished
      if(matchCounter === 8)
      {
+       // stop timer
+       clearInterval(timeEllapsed);
+
        // game over, show Modal box
        showModal();
        matchCounter, moveCounter = 0;
-
-       // stop timer
-       clearInterval(timeEllapsed);
      }
    }
  }
@@ -255,15 +258,48 @@
    let para2 = document.createElement('p');
    let para3 = document.createElement('p');
 
+   // Handle MOVES
    para1.textContent = "Moves = " + moveCounter;
    modalBody.appendChild(para1);
 
-   para2.textContent = "Time used = " +
-     document.querySelector('#minutes').textContent + ":" +
-     document.querySelector('#seconds').textContent;
+   // Handle TIMER
+   para2.textContent =
+        "Time used = " +
+        document.querySelector('#minutes').textContent + ":" +
+        document.querySelector('#seconds').textContent;
    modalBody.appendChild(para2);
 
+   // Handle STARS RATING
+   const stars = document.querySelector('.stars');
    para3.textContent = "Your star rating = ";
+
+   // choose color of stars based on number
+   let color = "";
+   switch(starCounter)
+   {
+    case 1:
+      color = "red";
+      break;
+    case 2:
+      color = "orange";
+      break;
+    case 3:
+      color = "green";
+      break;
+   }
+
+   for(let i = 0; i < starCounter; i++)
+   {
+    // create the <i> element to host the "*"
+    let iElem = document.createElement('i');
+
+    // assign classes and color
+    iElem.className = "fa fa-star";
+    iElem.style.color = color;
+
+    // append the rating to the <p> element
+    para3.appendChild(iElem);
+   }
    modalBody.appendChild(para3);
 
    // add an event listener to the button
@@ -289,6 +325,41 @@ function incrementMoves()
     movesWord.textContent = "Moves";
   }
   movesElement.textContent = moveCounter;
+
+  // take control of the stars (player performance)
+  setStarPerformance(moveCounter);
+}
+
+function setStarPerformance(moves)
+{
+  const starsUl = document.querySelector('.stars');
+  const liNumElem = starsUl.getElementsByTagName("LI").length;
+
+  if(starCounter !== 1)
+  {
+    // decrement 1 star when hitting 11 moves
+    if(moves > 10 && moves <= 19)
+    {
+      starCounter = 2;
+      // leave two <li> elements
+      if(liNumElem === 3)
+      {
+        starsUl.removeChild(starsUl.childNodes[0]);
+        starsUl.style.color = "orange";
+      }
+    }
+    // decrement 2 stars when hitting 20 moves
+    else if(moves > 19)
+    {
+      starCounter = 1;
+      // leave just one <li> element
+      if(liNumElem === 2)
+      {
+        starsUl.removeChild(starsUl.childNodes[1]);
+        starsUl.style.color = "red";
+      }
+    }
+  }
 }
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -306,7 +377,7 @@ function shuffle(array) {
     return array;
 }
 
-// Timer function
+// Timer function-. Adapter from https://stackoverflow.com/a/7910506/6260431
 function startTimer()
 {
   let sec = 0;
@@ -320,7 +391,6 @@ function startTimer()
     document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
    }, 1000);
 }
-
 
 function resetList(list)
 {
