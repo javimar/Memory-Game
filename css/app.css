@@ -263,3 +263,12 @@ footer .social .social-link {
 footer .social .social-link:hover {
     color: #11b054;
 }
+
+/*
+* Styles for header h1
+*/
+#h1text {
+  color: #11b054;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
