@@ -17,7 +17,7 @@ body {
 }
 
 body {
-    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    background: #ffffff url('../img/summer.jpg') ; /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
 }
 
@@ -281,9 +281,60 @@ footer .social .social-link:hover {
 * Styles for header h1
 */
 #h1text {
-  color: #11b054;
+  color: #000;
   font-weight: bold;
-  letter-spacing: 2px;
   padding: 0;
+  letter-spacing: 2px;
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 650px) {
+  #h1text
+  {
+    letter-spacing: 0;
+    font-size: 1.5em;
+
+  }
+  .deck
+  {
+    box-shadow: none;
+    width: 100%;
+    min-height: auto;
+  }
+  .deck .card
+  {
+    height: 80px;
+    width: 80px;
+    margin: 3px;
+  }
+  .score-panel
+  {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  footer .copyright
+  {
+    color: #000;
+  }
+  .score-panel .timer
+  {
+    color: purple;
+    font-weight: bold;
+  }
+  .score-panel .stars
+  {
+      margin: 0 5px 0 110px;
+      color: blue;
+  }
+  .score-panel .moves
+  {
+    margin-left: 40px;
+    color: blue;
+    font-weight:bold;
+  }
+  .score-panel .moves-literal
+  {
+    color: blue;
+    font-weight:bold;
+  }
 }
