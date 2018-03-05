@@ -110,10 +110,10 @@ h1 {
     70% { transform: translate(3px, 1px) rotate(-1deg); }
     80% { transform: translate(-1px, -1px) rotate(1deg); }
     90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 /*
+100% { transform: translate(1px, -2px) rotate(-1deg); }
  * Styles for the Score Panel
  */
 
@@ -237,4 +237,29 @@ h1 {
   cursor: pointer;
   border-radius: 10px;
   width: auto;
+}
+
+/*
+* Styles for footer
+*/
+footer .social {
+    text-align: center;
+}
+
+footer .copyright {
+    text-align: center;
+    color: #11b054;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: .9em;
+}
+
+footer .social .social-link {
+    font-size: 3em;
+    margin-right: .3em;
+    color: inherit;
+}
+
+footer .social .social-link:hover {
+    color: #11b054;
 }
