@@ -288,53 +288,76 @@ footer .social .social-link:hover {
   margin-top: 10px;
 }
 
+@media only screen and (min-width: 651px) and (max-width: 950px) {
+  .score-panel .stars {
+      margin: 0 5px 0 10px;
+      color: white;
+      font-size: 110%
+  }
+  .score-panel .moves {
+    margin-left: 200px;
+    vertical-align: center;
+    font-weight:bold;
+  }
+  .score-panel .moves-literal {
+    font-weight:bold;
+  }
+}
+
 @media only screen and (max-width: 650px) {
-  #h1text
-  {
+  body {
+    background: #ffffff url('../img/summer_s.jpg');
+  }
+
+  #h1text {
     letter-spacing: 0;
     font-size: 1.5em;
 
   }
-  .deck
-  {
+
+  .deck {
     box-shadow: none;
     width: 100%;
     min-height: auto;
   }
-  .deck .card
-  {
-    height: 80px;
-    width: 80px;
+
+  .deck .card {
+    height: 70px;
+    width: 70px;
     margin: 3px;
   }
-  .score-panel
-  {
+
+  .score-panel {
     width: 100%;
     margin-bottom: 10px;
   }
-  footer .copyright
-  {
+
+  footer .copyright {
     color: #000;
   }
-  .score-panel .timer
-  {
-    color: purple;
+
+  .score-panel .timer {
+    color: yellow;
     font-weight: bold;
   }
-  .score-panel .stars
-  {
-      margin: 0 5px 0 110px;
-      color: blue;
+
+  .score-panel .stars {
+      margin: 0 5px 0 10px;
+      color: purple;
+      font-size: 110%
   }
-  .score-panel .moves
-  {
-    margin-left: 40px;
+
+  .score-panel .moves {
     color: blue;
     font-weight:bold;
   }
-  .score-panel .moves-literal
-  {
+
+  .score-panel .moves-literal {
     color: blue;
     font-weight:bold;
+  }
+
+  .score-panel .restart {
+    margin-right: 10px;
   }
 }
