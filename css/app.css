@@ -17,7 +17,8 @@ body {
 }
 
 body {
-    background: #ffffff url('../img/summer.jpg') ; /* Background pattern from Subtle Patterns */
+    background: #e5f6f6 url('../img/summer.jpg') no-repeat;
+    background-size:cover;
     font-family: 'Coda', cursive;
 }
 
@@ -117,7 +118,7 @@ h1 {
  * Styles for the Score Panel
  */
 .score-panel {
-    width: 600px;
+    width: 500px;
     margin-bottom: 10px;
 }
 
@@ -281,7 +282,7 @@ footer .social .social-link:hover {
 * Styles for header h1
 */
 #h1text {
-  color: #000;
+  color: #90327d;
   font-weight: bold;
   padding: 0;
   letter-spacing: 2px;
@@ -289,16 +290,19 @@ footer .social .social-link:hover {
 }
 
 @media only screen and (min-width: 651px) and (max-width: 950px) {
+  body {
+    background: #e5f6f6 url('../img/summer_s.jpg') repeat;
+    background-size:cover;
+  }
+
   .score-panel .stars {
-      margin: 0 5px 0 10px;
-      color: white;
       font-size: 110%
   }
+
   .score-panel .moves {
-    margin-left: 200px;
-    vertical-align: center;
     font-weight:bold;
   }
+
   .score-panel .moves-literal {
     font-weight:bold;
   }
@@ -306,25 +310,24 @@ footer .social .social-link:hover {
 
 @media only screen and (max-width: 650px) {
   body {
-    background: #ffffff url('../img/summer_s.jpg');
+    background: #e5f6f6 url('../img/summer_s.jpg');
+    background-size:cover;
   }
 
   #h1text {
     letter-spacing: 0;
     font-size: 1.5em;
-
   }
 
   .deck {
-    box-shadow: none;
     width: 100%;
     min-height: auto;
   }
 
   .deck .card {
-    height: 70px;
     width: 70px;
-    margin: 3px;
+    height: 70px;
+    margin: 2px;
   }
 
   .score-panel {
@@ -337,7 +340,7 @@ footer .social .social-link:hover {
   }
 
   .score-panel .timer {
-    color: yellow;
+    color: #167f7c;
     font-weight: bold;
   }
 
@@ -348,16 +351,20 @@ footer .social .social-link:hover {
   }
 
   .score-panel .moves {
-    color: blue;
+    color: #167f7c;
     font-weight:bold;
   }
 
   .score-panel .moves-literal {
-    color: blue;
+    color: #167f7c;
     font-weight:bold;
   }
 
   .score-panel .restart {
     margin-right: 10px;
+  }
+
+  .modal-content {
+    width: 60%;
   }
 }
