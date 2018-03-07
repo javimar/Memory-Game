@@ -102,6 +102,7 @@
 
  // global time
  let timeEllapsed;
+ let timeStarted = false;
 
 /**
 * Functions to return the state of a card
@@ -161,6 +162,13 @@
 
  function addCardToOpenList(li, cardName)
  {
+  // check if timer already started
+  if(!timeStarted)
+  {
+    startTimer();
+    timeStarted = true;
+  }
+
    // if card is already open, we cannot push it again into the list
    if(li.classList.contains(openCard()))
    {
@@ -407,9 +415,8 @@ function initGame()
     location.reload();
   });
 
-  // display all the cards and start
+  // display all the cards
   displayCards();
-  startTimer();
 }
 
 // GAME point of entry
