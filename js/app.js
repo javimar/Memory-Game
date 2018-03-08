@@ -4,20 +4,10 @@
  const masterCard =
  {
    allCardsList:
-   [ // All 16 cards are here, 8 types x 2
+   [ // All cards types
      {
        name: 'diamond',
        icon: 'fa fa-diamond',
-       class: 'card'
-     },
-     {
-       name: 'diamond',
-       icon: 'fa fa-diamond',
-       class: 'card'
-     },
-     {
-       name: 'plane',
-       icon: 'fa fa-paper-plane-o',
        class: 'card'
      },
      {
@@ -31,23 +21,8 @@
        class: 'card'
      },
      {
-       name: 'anchor',
-       icon: 'fa fa-anchor',
-       class: 'card'
-     },
-     {
        name: 'bolt',
        icon: 'fa fa-bolt',
-       class: 'card'
-     },
-     {
-       name: 'bolt',
-       icon: 'fa fa-bolt',
-       class: 'card'
-     },
-     {
-       name: 'cube',
-       icon: 'fa fa-cube',
        class: 'card'
      },
      {
@@ -61,23 +36,8 @@
        class: 'card'
      },
      {
-       name: 'leaf',
-       icon: 'fa fa-leaf',
-       class: 'card'
-     },
-     {
        name: 'bicycle',
        icon: 'fa fa-bicycle',
-       class: 'card'
-     },
-     {
-       name: 'bicycle',
-       icon: 'fa fa-bicycle',
-       class: 'card'
-     },
-     {
-       name: 'bomb',
-       icon: 'fa fa-bomb',
        class: 'card'
      },
      {
@@ -88,39 +48,50 @@
    ]
  };
 
- // control the moves (clicks)
- let moveCounter = 0;
-
- // control the matched cards
- let matchCounter = 0;
-
- // control the stars (performance)
- let starCounter = 3;
-
- const cardState = ['open', 'match', 'nomatch'];
- let openCardsList = []; // we put the cards that are faced up (open card)
-
- // global time
- let timeEllapsed;
- let timeStarted = false;
-
-/**
-* Functions to return the state of a card
-*/
- function openCard()
+ // Game object variables
+ const game =
  {
-   return cardState[0];
+    moveCounter: 0,
+    matchCounter: 0,
+    starCounter: 3,
+    timeEllapsed: null,
+    timeStarted: false,
+    openCard: "open",
+    matchCard: "match",
+    nomatchCard: "nomatch",
+    openCardsList: [] // we put the cards that are faced up (open card)
  }
 
- function matchCard()
- {
-   return cardState[1];
- }
+ // Utilities functions go here
+ const utils = {};
 
- function nomatchCard()
+ utils.shuffle = function(array) // Shuffle function from http://stackoverflow.com/a/2450976
  {
-   return cardState[2];
- }
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+    return array;
+  }
+
+  utils.startTimer = function() // Timer function-. Adapted from https://stackoverflow.com/a/7910506/6260431
+  {
+    let sec = 0;
+    function pad(val)
+    {
+      return val > 9 ? val : "0" + val;
+    }
+    timeEllapsed = setInterval(function()
+    {
+      document.getElementById("seconds").innerHTML = pad(++sec % 60);
+      document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
+     }, 1000);
+  }
 
 /*
  * Display the cards on the page
@@ -130,8 +101,9 @@
  */
  function displayCards()
  {
-   const cards = masterCard.allCardsList;
-   shuffle(cards);
+   // double the array so as to have all 16 cards
+   const cards = masterCard.allCardsList.concat(masterCard.allCardsList);
+   utils.shuffle(cards);
 
    // get a reference to the deck
    const deck = document.querySelector('.deck');
@@ -163,23 +135,23 @@
  function addCardToOpenList(li, cardName)
  {
   // check if timer already started
-  if(!timeStarted)
+  if(!game.timeStarted)
   {
-    startTimer();
-    timeStarted = true;
+    utils.startTimer();
+    game.timeStarted = true;
   }
 
    // if card is already open, we cannot push it again into the list
-   if(li.classList.contains(openCard()))
+   if(li.classList.contains(game.openCard))
    {
      return;
    }
 
    // card is open
-   li.classList.add(openCard());
+   li.classList.add(game.openCard);
 
    // put card in the open list array
-   openCardsList.push(li);
+   game.openCardsList.push(li);
 
    // check cards
    checkCards(cardName);
@@ -188,47 +160,47 @@
  function checkCards(cardName)
  {
    // if the list already has another card, check to see if the two cards match
-   if (openCardsList.length === 2)
+   if (game.openCardsList.length === 2)
    {
      // place individual cards in 2 variables so we can compare them
-     let card1 = openCardsList[0];
-     let card2 = openCardsList[1];
+     let card1 = game.openCardsList[0];
+     let card2 = game.openCardsList[1];
      if(card1.classList.contains(cardName) && card2.classList.contains(cardName))
      {
        // cards match, set state to "match"
-       card1.classList.add(matchCard());
-       card2.classList.add(matchCard());
+       card1.classList.add(game.matchCard);
+       card2.classList.add(game.matchCard);
 
        // increment the match counter
-       matchCounter++;
+       game.matchCounter++;
      }
      else
      {
        // cards not match, set state to "nomatch"
-       card1.classList.add(nomatchCard());
-       card2.classList.add(nomatchCard());
+       card1.classList.add(game.nomatchCard);
+       card2.classList.add(game.nomatchCard);
 
        // set timeout to hide the card
        setTimeout(function()
        {
-           card1.classList.remove(openCard(), nomatchCard());
-           card2.classList.remove(openCard(), nomatchCard());
+           card1.classList.remove(game.openCard, game.nomatchCard);
+           card2.classList.remove(game.openCard, game.nomatchCard);
        }, 900);
      }
 
      // clean and reset openCardsList array
-     resetList(openCardsList);
+     resetList(game.openCardsList);
      incrementMoves();
 
      // check if game is finished
-     if(matchCounter === 8)
+     if(game.matchCounter === 8)
      {
        // stop timer
        clearInterval(timeEllapsed);
 
        // game over, show Modal box
        showModal();
-       matchCounter, moveCounter = 0;
+       game.matchCounter, game.moveCounter = 0;
      }
    }
  }
@@ -267,7 +239,7 @@
    let para3 = document.createElement('p');
 
    // Handle MOVES
-   para1.textContent = "Moves = " + moveCounter;
+   para1.textContent = "Moves = " + game.moveCounter;
    modalBody.appendChild(para1);
 
    // Handle TIMER
@@ -283,7 +255,7 @@
 
    // choose color of stars based on number
    let color = "";
-   switch(starCounter)
+   switch(game.starCounter)
    {
     case 1:
       color = "red";
@@ -296,7 +268,7 @@
       break;
    }
 
-   for(let i = 0; i < starCounter; i++)
+   for(let i = 0; i < game.starCounter; i++)
    {
     // create the <i> element to host the "*"
     let iElem = document.createElement('i');
@@ -323,8 +295,9 @@ function incrementMoves()
   // increment moves counter
   const movesElement = document.querySelector('.moves');
   const movesWord = document.querySelector('.moves-literal');
-  moveCounter++;
-  if(moveCounter === 1)
+  game.moveCounter++;
+
+  if(game.moveCounter === 1)
   {
     movesWord.textContent = "Move";
   }
@@ -332,10 +305,10 @@ function incrementMoves()
   {
     movesWord.textContent = "Moves";
   }
-  movesElement.textContent = moveCounter;
+  movesElement.textContent = game.moveCounter;
 
   // take control of the stars (player performance)
-  setStarPerformance(moveCounter);
+  setStarPerformance(game.moveCounter);
 }
 
 function setStarPerformance(moves)
@@ -343,12 +316,12 @@ function setStarPerformance(moves)
   const starsUl = document.querySelector('.stars');
   const liNumElem = starsUl.getElementsByTagName("LI").length;
 
-  if(starCounter !== 1)
+  if(game.starCounter !== 1)
   {
     // decrement 1 star when hitting 11 moves
-    if(moves > 10 && moves <= 19)
+    if(moves > 12 && moves <= 20)
     {
-      starCounter = 2;
+      game.starCounter = 2;
       // leave two <li> elements
       if(liNumElem === 3)
       {
@@ -357,9 +330,9 @@ function setStarPerformance(moves)
       }
     }
     // decrement 2 stars when hitting 20 moves
-    else if(moves > 19)
+    else if(moves > 20)
     {
-      starCounter = 1;
+      game.starCounter = 1;
       // leave just one <li> element
       if(liNumElem === 2)
       {
@@ -368,36 +341,6 @@ function setStarPerformance(moves)
       }
     }
   }
-}
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
-// Timer function-. Adapter from https://stackoverflow.com/a/7910506/6260431
-function startTimer()
-{
-  let sec = 0;
-  function pad(val)
-  {
-    return val > 9 ? val : "0" + val;
-  }
-  timeEllapsed = setInterval(function()
-  {
-    document.getElementById("seconds").innerHTML = pad(++sec % 60);
-    document.getElementById("minutes").innerHTML = pad(parseInt(sec / 60, 10));
-   }, 1000);
 }
 
 function resetList(list)

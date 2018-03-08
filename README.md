@@ -12,4 +12,9 @@ Each turn:
 * If the cards do not match, both cards are flipped face down.
 * The game ends once all cards have been correctly matched.
 
-Project developed as part of [Udacity](https://udacity.com/) Udacity Front-End Developer Nanodegree.
+Project developed as part of [Udacity](https://udacity.com/) Front-End Developer Nanodegree.
+
+## Code Dependencies
+
+* Icons by Font Awesome
+* Coda font by Google Fonts.
